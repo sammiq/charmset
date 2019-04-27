@@ -55,7 +55,7 @@ func Test_everyInSliceMismatches(t *testing.T) {
 			matcher := &internal.MockMatcher{Fail: true}
 			actualValue := reflect.ValueOf(tt.actual)
 			err := everyInSliceMatch(matcher, actualValue)
-			if err == nil || err.Error() != "an item, where did fail" {
+			if err == nil || err.Error() != "contained an item where did fail" {
 				t.Error("should always mismatch with an error")
 			}
 			if matcher.CallCount != 1 {
@@ -106,9 +106,9 @@ func Test_anyInSliceMismatches(t *testing.T) {
 		actual        interface{}
 		expectedError string
 	}{
-		{"mismatch when single element", []int{42}, "an item, where did fail"},
-		{"mismatch when two elements", []int{42, 24}, "all items, where [\n         did fail,\n         did fail\n         ]"},
-		{"mismatch when multiple elements", []int{42, 24, 84}, "all items, where [\n         did fail,\n         did fail,\n         did fail\n         ]"},
+		{"mismatch when single element", []int{42}, "contained an item where did fail"},
+		{"mismatch when two elements", []int{42, 24}, "no item matched [\n          did fail,\n          did fail\n          ]"},
+		{"mismatch when multiple elements", []int{42, 24, 84}, "no item matched [\n          did fail,\n          did fail,\n          did fail\n          ]"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

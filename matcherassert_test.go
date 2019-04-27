@@ -27,7 +27,7 @@ func TestMatcherAssert_AssertThat(t *testing.T) {
 		matcher := &internal.MockMatcher{Fail: tt.fail}
 		asserter := &MatcherAssert{Test: tester, FailFast: tt.fatal}
 
-		asserter.AssertThat("reason", 42, matcher)
+		asserter.AssertThat(42, matcher)
 
 		if tt.fail {
 			if tt.fatal {
@@ -39,7 +39,7 @@ func TestMatcherAssert_AssertThat(t *testing.T) {
 					t.Errorf("Expected normal error to trigger when fail with an error")
 				}
 			}
-			if tester.LastMessage != "reason\nExpected: should pass\n     but: did fail" {
+			if tester.LastMessage != "Expected: should pass\n     but: did fail" {
 				t.Errorf("Expected error message to contain correct information")
 			}
 		} else {

@@ -61,22 +61,8 @@ func EqualTo(expected interface{}) *matchers.MatcherType {
 	)
 }
 
-func NotMatching(matcher matchers.Matcher) *matchers.MatcherType {
-	return matchers.NewMatcher(
-		fmt.Sprintf("not %s", matcher.Description()),
-		func(actual interface{}) error {
-			err := matcher.Match(actual)
-			if err != nil {
-				return nil
-			} else {
-				return fmt.Errorf("was %s", matcher.Description())
-			}
-		},
-	)
-}
-
-func Not(expected interface{}) *matchers.MatcherType {
-	return NotMatching(EqualTo(expected))
+func NotEqualTo(expected interface{}) *matchers.MatcherType {
+	return Not(EqualTo(expected))
 }
 
 func Nil() *matchers.MatcherType {
@@ -84,5 +70,5 @@ func Nil() *matchers.MatcherType {
 }
 
 func NotNil() *matchers.MatcherType {
-	return NotMatching(EqualTo(nil))
+	return Not(EqualTo(nil))
 }

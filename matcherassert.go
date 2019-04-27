@@ -12,9 +12,9 @@ type MatcherAssert struct {
 	FailFast bool
 }
 
-func (ma *MatcherAssert) AssertThat(reason string, actual interface{}, matcher Matcher) {
+func (ma *MatcherAssert) AssertThat(actual interface{}, matcher Matcher) {
 	if err := matcher.Match(actual); err != nil {
-		ma.Test.Logf("%s\nExpected: %s\n     but: %s", reason, matcher.Description(), err)
+		ma.Test.Logf("Expected: %s\n     but: %s", matcher.Description(), err)
 		if ma.FailFast {
 			ma.Test.FailNow()
 		} else {

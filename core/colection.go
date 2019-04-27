@@ -14,7 +14,7 @@ func everyInSliceMatch(matcher matchers.Matcher, actual reflect.Value) (err erro
 		value := actual.Index(i).Interface()
 		err = matcher.Match(value)
 		if err != nil {
-			return fmt.Errorf("an item, where %s", err)
+			return fmt.Errorf("contained an item where %s", err)
 		}
 	}
 	return nil
@@ -34,14 +34,14 @@ func anyInSliceMatch(matcher matchers.Matcher, actual reflect.Value) (err error)
 		errs = append(errs, err.Error())
 	}
 	if len(errs) == 1 {
-		return fmt.Errorf("an item, where %s", errs[0])
+		return fmt.Errorf("contained an item where %s", errs[0])
 	}
-	return fmt.Errorf("all items, where [\n         %s\n         ]", strings.Join(errs, ",\n         "))
+	return fmt.Errorf("no item matched [\n          %s\n          ]", strings.Join(errs, ",\n          "))
 }
 
 func EveryItemMatching(matcher matchers.Matcher) *matchers.MatcherType {
 	return matchers.NewMatcher(
-		fmt.Sprintf("every item has %s", matcher.Description()),
+		fmt.Sprintf("every item to have %s", matcher.Description()),
 		func(actual interface{}) error {
 			actualValue := reflect.ValueOf(actual)
 			switch actualValue.Kind() {
@@ -56,7 +56,7 @@ func EveryItemMatching(matcher matchers.Matcher) *matchers.MatcherType {
 
 func HasItemMatching(matcher matchers.Matcher) *matchers.MatcherType {
 	return matchers.NewMatcher(
-		fmt.Sprintf("any item has %s", matcher.Description()),
+		fmt.Sprintf("any item to have %s", matcher.Description()),
 		func(actual interface{}) error {
 			actualValue := reflect.ValueOf(actual)
 			switch actualValue.Kind() {
