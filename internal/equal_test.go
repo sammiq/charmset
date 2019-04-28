@@ -5,7 +5,7 @@ import (
 )
 
 func assertEqualMatched(t *testing.T, expected interface{}, actual interface{}, expectMatch bool) {
-	err := equal(expected, actual)
+	err := Equal(expected, actual)
 	if (err == nil) != expectMatch {
 		t.Errorf("Expected err to be returned when match is %v, expected is %v and actual is %v", expectMatch, expected, actual)
 	}
