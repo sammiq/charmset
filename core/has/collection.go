@@ -11,6 +11,9 @@ import (
 )
 
 func everyInSliceMatch(matcher matchers.Matcher, actual reflect.Value) (err error) {
+	if actual.Len() == 0 {
+		return errors.New("was empty")
+	}
 	for i := 0; i < actual.Len(); i++ {
 		value := actual.Index(i).Interface()
 		err = matcher.Match(value)

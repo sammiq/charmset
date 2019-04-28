@@ -10,8 +10,9 @@ import (
 func Test_everyInSlice_match_when_no_elements(t *testing.T) {
 	matcher := &internal.MockMatcher{}
 	actualValue := reflect.ValueOf([]int{})
-	if err := everyInSliceMatch(matcher, actualValue); err != nil {
-		t.Error("should never fail with an error")
+	err := everyInSliceMatch(matcher, actualValue)
+	if err == nil || err.Error() != "was empty" {
+		t.Error("should never mismatch with an error")
 	}
 	if matcher.CallCount != 0 {
 		t.Error("should never call matcher")

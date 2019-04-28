@@ -11,12 +11,12 @@ func Test_and(t *testing.T) {
 		name        string
 		firstMatch  bool
 		secondMatch bool
-		wantErr     bool
+		shouldMatch bool
 	}{
-		{"should not match if both do not match", false, false, true},
-		{"should not match if first does not match", true, false, true},
-		{"not match if second does not match", false, true, true},
-		{"should match if both match", true, true, false},
+		{"should not match if both do not match", false, false, false},
+		{"should not match if first does not match", true, false, false},
+		{"not match if second does not match", false, true, false},
+		{"should match if both match", true, true, true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -24,13 +24,13 @@ func Test_and(t *testing.T) {
 			second := &internal.MockMatcher{Matches: tt.secondMatch}
 
 			err := and(first, second, 42)
-			if tt.wantErr {
-				if err == nil {
-					t.Errorf("expected error from %v and %v", tt.firstMatch, tt.secondMatch)
-				}
-			} else {
+			if tt.shouldMatch {
 				if err != nil {
 					t.Errorf("expected no error from %v and %v", tt.firstMatch, tt.secondMatch)
+				}
+			} else {
+				if err == nil {
+					t.Errorf("expected error from %v and %v", tt.firstMatch, tt.secondMatch)
 				}
 			}
 		})
@@ -42,12 +42,12 @@ func Test_or(t *testing.T) {
 		name        string
 		firstMatch  bool
 		secondMatch bool
-		wantErr     bool
+		shouldMatch bool
 	}{
-		{"should not match if both do not match", false, false, true},
-		{"should not match if first does not match", true, false, false},
-		{"not match if second does not match", false, true, false},
-		{"should match if both match", true, true, false},
+		{"should not match if both do not match", false, false, false},
+		{"should not match if first does not match", true, false, true},
+		{"not match if second does not match", false, true, true},
+		{"should match if both match", true, true, true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -55,13 +55,13 @@ func Test_or(t *testing.T) {
 			second := &internal.MockMatcher{Matches: tt.secondMatch}
 
 			err := or(first, second, 42)
-			if tt.wantErr {
-				if err == nil {
-					t.Errorf("expected error from %v or %v", tt.firstMatch, tt.secondMatch)
-				}
-			} else {
+			if tt.shouldMatch {
 				if err != nil {
 					t.Errorf("expected no error from %v or %v", tt.firstMatch, tt.secondMatch)
+				}
+			} else {
+				if err == nil {
+					t.Errorf("expected error from %v or %v", tt.firstMatch, tt.secondMatch)
 				}
 			}
 		})
