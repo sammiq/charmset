@@ -1,4 +1,4 @@
-package core
+package has
 
 import (
 	"errors"
@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/sammiq/matchers"
+	"github.com/sammiq/matchers/core/is"
 )
 
 func everyInSliceMatch(matcher matchers.Matcher, actual reflect.Value) (err error) {
@@ -70,5 +71,5 @@ func AnyItemMatching(matcher matchers.Matcher) *matchers.MatcherType {
 }
 
 func AnyItem(expected interface{}) *matchers.MatcherType {
-	return AnyItemMatching(EqualTo(expected))
+	return AnyItemMatching(is.EqualTo(expected))
 }

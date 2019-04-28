@@ -1,9 +1,11 @@
-package core
+package test
 
 import (
 	"testing"
 
 	"github.com/sammiq/matchers"
+	"github.com/sammiq/matchers/core/has"
+	"github.com/sammiq/matchers/core/is"
 	"github.com/sammiq/matchers/internal"
 )
 
@@ -11,7 +13,7 @@ func Test_EveryItemMatchingMatcher(t *testing.T) {
 	tester := &internal.MockTester{}
 	assert := &matchers.MatcherAssert{Test: tester, FailFast: false}
 
-	assert.That([]int{42, 42, 43}, EveryItemMatching(EqualTo(42)))
+	assert.That([]int{42, 42, 43}, has.EveryItemMatching(is.EqualTo(42)))
 	if tester.ErrorCount != 1 {
 		t.Error("expected error to fire")
 	}
@@ -24,7 +26,7 @@ func Test_AnyItemMatchingMatcher(t *testing.T) {
 	tester := &internal.MockTester{}
 	assert := &matchers.MatcherAssert{Test: tester, FailFast: false}
 
-	assert.That([]int{43, 43, 43}, AnyItemMatching(EqualTo(42)))
+	assert.That([]int{43, 43, 43}, has.AnyItemMatching(is.EqualTo(42)))
 	if tester.ErrorCount != 1 {
 		t.Error("expected error to fire")
 	}

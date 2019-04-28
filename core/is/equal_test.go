@@ -1,17 +1,17 @@
-package core
+package is
 
 import (
 	"testing"
 )
 
-func assertIsEqualMatched(t *testing.T, expected interface{}, actual interface{}, expectMatch bool) {
+func assertEqualMatched(t *testing.T, expected interface{}, actual interface{}, expectMatch bool) {
 	err := equal(expected, actual)
 	if (err == nil) != expectMatch {
 		t.Errorf("Expected err to be returned when match is %v, expected is %v and actual is %v", expectMatch, expected, actual)
 	}
 }
 
-func TestIsEqualMatches(t *testing.T) {
+func Test_equalMatches(t *testing.T) {
 	tests := []struct {
 		name     string
 		expected interface{}
@@ -30,12 +30,12 @@ func TestIsEqualMatches(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			assertIsEqualMatched(t, tt.expected, tt.actual, true)
+			assertEqualMatched(t, tt.expected, tt.actual, true)
 		})
 	}
 }
 
-func TestIsEqualMismatches(t *testing.T) {
+func Test_equalMismatches(t *testing.T) {
 	tests := []struct {
 		name     string
 		expected interface{}
@@ -62,7 +62,7 @@ func TestIsEqualMismatches(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			assertIsEqualMatched(t, tt.expected, tt.actual, false)
+			assertEqualMatched(t, tt.expected, tt.actual, false)
 		})
 	}
 }

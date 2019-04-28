@@ -1,4 +1,4 @@
-package core
+package matches
 
 import (
 	"fmt"
@@ -38,15 +38,6 @@ func or(first matchers.Matcher, second matchers.Matcher, actual interface{}) (er
 	)
 }
 
-func not(matcher matchers.Matcher, actual interface{}) error {
-	err := matcher.Match(actual)
-	if err != nil {
-		return nil
-	} else {
-		return fmt.Errorf("value was <%v>", actual)
-	}
-}
-
 type both struct {
 	matcher matchers.Matcher
 }
@@ -79,13 +70,4 @@ func (x either) Or(matcher matchers.Matcher) matchers.Matcher {
 
 func Either(matcher matchers.Matcher) *either {
 	return &either{matcher}
-}
-
-func Not(matcher matchers.Matcher) *matchers.MatcherType {
-	return matchers.NewMatcher(
-		fmt.Sprintf("not %s", matcher.Description()),
-		func(actual interface{}) error {
-			return not(matcher, actual)
-		},
-	)
 }

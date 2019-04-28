@@ -1,9 +1,10 @@
-package core
+package test
 
 import (
 	"testing"
 
 	"github.com/sammiq/matchers"
+	"github.com/sammiq/matchers/core/is"
 	"github.com/sammiq/matchers/internal"
 )
 
@@ -11,7 +12,7 @@ func Test_EqualToMatcher(t *testing.T) {
 	tester := &internal.MockTester{}
 	assert := &matchers.MatcherAssert{Test: tester, FailFast: false}
 
-	assert.That(42, EqualTo(43))
+	assert.That(42, is.EqualTo(43))
 	if tester.ErrorCount != 1 {
 		t.Error("expected error to fire")
 	}
@@ -24,7 +25,7 @@ func Test_NotEqualToMatcher(t *testing.T) {
 	tester := &internal.MockTester{}
 	assert := &matchers.MatcherAssert{Test: tester, FailFast: false}
 
-	assert.That(42, NotEqualTo(42))
+	assert.That(42, is.NotEqualTo(42))
 	if tester.ErrorCount != 1 {
 		t.Error("expected error to fire")
 	}
@@ -37,7 +38,7 @@ func Test_NilMatcher(t *testing.T) {
 	tester := &internal.MockTester{}
 	assert := &matchers.MatcherAssert{Test: tester, FailFast: false}
 
-	assert.That(42, Nil())
+	assert.That(42, is.Nil())
 	if tester.ErrorCount != 1 {
 		t.Error("expected error to fire")
 	}
@@ -50,7 +51,7 @@ func Test_NotNilMatcher(t *testing.T) {
 	tester := &internal.MockTester{}
 	assert := &matchers.MatcherAssert{Test: tester, FailFast: false}
 
-	assert.That(nil, NotNil())
+	assert.That(nil, is.NotNil())
 	if tester.ErrorCount != 1 {
 		t.Error("expected error to fire")
 	}

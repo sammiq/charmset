@@ -8,28 +8,32 @@ import (
 
 func TestMatcherAssert_That(t *testing.T) {
 	tests := []struct {
-		fail  bool
+		match bool
 		fatal bool
 	}{
 		{
-			false, false,
-		}, {
 			true, false,
 		}, {
-			true, true,
+			false, false,
 		}, {
 			false, true,
+		}, {
+			true, true,
 		},
 	}
 
 	for _, tt := range tests {
 		tester := &internal.MockTester{}
-		matcher := &internal.MockMatcher{Fail: tt.fail}
+		matcher := &internal.MockMatcher{Matches: tt.match}
 		assert := &MatcherAssert{Test: tester, FailFast: tt.fatal}
 
 		assert.That(42, matcher)
 
-		if tt.fail {
+		if tt.match {
+			if tester.ErrorCount != 0 || tester.FatalCount != 0 {
+				t.Errorf("Expected no error to trigger when not failing")
+			}
+		} else {
 			if tt.fatal {
 				if tester.ErrorCount != 0 || tester.FatalCount != 1 {
 					t.Errorf("Expected fatal error to trigger when fail with an error")
@@ -39,12 +43,8 @@ func TestMatcherAssert_That(t *testing.T) {
 					t.Errorf("Expected normal error to trigger when fail with an error")
 				}
 			}
-			if tester.LastMessage != "Expected: should pass\n     but: did fail" {
+			if tester.LastMessage != "Expected: might match\n     but: did not match" {
 				t.Errorf("Expected error message to contain correct information")
-			}
-		} else {
-			if tester.ErrorCount != 0 || tester.FatalCount != 0 {
-				t.Errorf("Expected no error to trigger when not failing")
 			}
 		}
 	}

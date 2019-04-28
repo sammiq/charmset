@@ -1,4 +1,4 @@
-package core
+package has
 
 import (
 	"reflect"
@@ -29,7 +29,7 @@ func Test_everyInSliceMatches(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			matcher := &internal.MockMatcher{Fail: false}
+			matcher := &internal.MockMatcher{Matches: true}
 			actualValue := reflect.ValueOf(tt.actual)
 			if err := everyInSliceMatch(matcher, actualValue); err != nil {
 				t.Error("should never mismatch with an error")
@@ -52,10 +52,10 @@ func Test_everyInSliceMismatches(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			matcher := &internal.MockMatcher{Fail: true}
+			matcher := &internal.MockMatcher{Matches: false}
 			actualValue := reflect.ValueOf(tt.actual)
 			err := everyInSliceMatch(matcher, actualValue)
-			if err == nil || err.Error() != "contained an item where did fail" {
+			if err == nil || err.Error() != "contained an item where did not match" {
 				t.Error("should always mismatch with an error")
 			}
 			if matcher.CallCount != 1 {
@@ -88,7 +88,7 @@ func Test_anyInSliceMatches(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			matcher := &internal.MockMatcher{Fail: false}
+			matcher := &internal.MockMatcher{Matches: true}
 			actualValue := reflect.ValueOf(tt.actual)
 			if err := anyInSliceMatch(matcher, actualValue); err != nil {
 				t.Error("should never mismatch with an error")
@@ -106,13 +106,13 @@ func Test_anyInSliceMismatches(t *testing.T) {
 		actual        interface{}
 		expectedError string
 	}{
-		{"mismatch when single element", []int{42}, "contained an item where did fail"},
-		{"mismatch when two elements", []int{42, 24}, "no item matched [\n          did fail,\n          did fail\n          ]"},
-		{"mismatch when multiple elements", []int{42, 24, 84}, "no item matched [\n          did fail,\n          did fail,\n          did fail\n          ]"},
+		{"mismatch when single element", []int{42}, "contained an item where did not match"},
+		{"mismatch when two elements", []int{42, 24}, "no item matched [\n          did not match,\n          did not match\n          ]"},
+		{"mismatch when multiple elements", []int{42, 24, 84}, "no item matched [\n          did not match,\n          did not match,\n          did not match\n          ]"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			matcher := &internal.MockMatcher{Fail: true}
+			matcher := &internal.MockMatcher{Matches: false}
 			actualValue := reflect.ValueOf(tt.actual)
 			err := anyInSliceMatch(matcher, actualValue)
 			if err == nil || err.Error() != tt.expectedError {

@@ -24,18 +24,18 @@ func (x *MockTester) FailNow() {
 }
 
 type MockMatcher struct {
-	Fail      bool
+	Matches   bool
 	CallCount int
 }
 
 func (x *MockMatcher) Description() string {
-	return "should pass"
+	return "might match"
 }
 
 func (x *MockMatcher) Match(actual interface{}) error {
 	x.CallCount++
-	if x.Fail {
-		return errors.New("did fail")
+	if x.Matches {
+		return nil
 	}
-	return nil
+	return errors.New("did not match")
 }
