@@ -38,14 +38,14 @@ func describeMatchers(allMatchers []matchers.Matcher, separator string) string {
 
 func AllOf(allMatchers ...matchers.Matcher) *matchers.MatcherType {
 	return matchers.NewMatcher(
-		fmt.Sprintf("(%s)", describeMatchers(allMatchers, "and")),
+		fmt.Sprintf("(%s)", describeMatchers(allMatchers, " and ")),
 		func(actual interface{}) error { return allMatch(allMatchers, actual) },
 	)
 }
 
 func AnyOf(anyMatchers ...matchers.Matcher) *matchers.MatcherType {
 	return matchers.NewMatcher(
-		fmt.Sprintf("(%s)", describeMatchers(anyMatchers, "or")),
+		fmt.Sprintf("(%s)", describeMatchers(anyMatchers, " or ")),
 		func(actual interface{}) error { return anyMatch(anyMatchers, actual) },
 	)
 }

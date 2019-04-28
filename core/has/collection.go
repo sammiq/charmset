@@ -37,7 +37,7 @@ func anyInSliceMatch(matcher matchers.Matcher, actual reflect.Value) (err error)
 	if len(errs) == 1 {
 		return fmt.Errorf("contained an item where %s", errs[0])
 	}
-	return fmt.Errorf("no item matched [\n          %s\n          ]", strings.Join(errs, ",\n          "))
+	return fmt.Errorf("no item matched where [\n          %s\n          ]", strings.Join(errs, ",\n          "))
 }
 
 func EveryItemMatching(matcher matchers.Matcher) *matchers.MatcherType {

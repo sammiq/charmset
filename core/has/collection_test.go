@@ -107,8 +107,8 @@ func Test_anyInSliceMismatches(t *testing.T) {
 		expectedError string
 	}{
 		{"mismatch when single element", []int{42}, "contained an item where did not match"},
-		{"mismatch when two elements", []int{42, 24}, "no item matched [\n          did not match,\n          did not match\n          ]"},
-		{"mismatch when multiple elements", []int{42, 24, 84}, "no item matched [\n          did not match,\n          did not match,\n          did not match\n          ]"},
+		{"mismatch when two elements", []int{42, 24}, "no item matched where [\n          did not match,\n          did not match\n          ]"},
+		{"mismatch when multiple elements", []int{42, 24, 84}, "no item matched where [\n          did not match,\n          did not match,\n          did not match\n          ]"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

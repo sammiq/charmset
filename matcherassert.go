@@ -1,6 +1,6 @@
 package matchers
 
-//abstracts away the struct used in the testing package
+//abstracts away the T struct used in the testing package
 type Tester interface {
 	Logf(format string, args ...interface{})
 	Fail()

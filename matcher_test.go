@@ -1,4 +1,4 @@
-package matches
+package matchers
 
 import (
 	"testing"
