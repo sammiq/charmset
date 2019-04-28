@@ -6,7 +6,7 @@ import (
 	"github.com/sammiq/matchers/internal"
 )
 
-func TestMatcherAssert_AssertThat(t *testing.T) {
+func TestMatcherAssert_That(t *testing.T) {
 	tests := []struct {
 		fail  bool
 		fatal bool
@@ -25,9 +25,9 @@ func TestMatcherAssert_AssertThat(t *testing.T) {
 	for _, tt := range tests {
 		tester := &internal.MockTester{}
 		matcher := &internal.MockMatcher{Fail: tt.fail}
-		asserter := &MatcherAssert{Test: tester, FailFast: tt.fatal}
+		assert := &MatcherAssert{Test: tester, FailFast: tt.fatal}
 
-		asserter.AssertThat(42, matcher)
+		assert.That(42, matcher)
 
 		if tt.fail {
 			if tt.fatal {

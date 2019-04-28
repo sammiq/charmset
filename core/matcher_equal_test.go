@@ -9,9 +9,9 @@ import (
 
 func Test_EqualToMatcher(t *testing.T) {
 	tester := &internal.MockTester{}
-	asserter := &matchers.MatcherAssert{Test: tester, FailFast: false}
+	assert := &matchers.MatcherAssert{Test: tester, FailFast: false}
 
-	asserter.AssertThat(42, EqualTo(43))
+	assert.That(42, EqualTo(43))
 	if tester.ErrorCount != 1 {
 		t.Error("expected error to fire")
 	}
@@ -22,9 +22,9 @@ func Test_EqualToMatcher(t *testing.T) {
 
 func Test_NotEqualToMatcher(t *testing.T) {
 	tester := &internal.MockTester{}
-	asserter := &matchers.MatcherAssert{Test: tester, FailFast: false}
+	assert := &matchers.MatcherAssert{Test: tester, FailFast: false}
 
-	asserter.AssertThat(42, NotEqualTo(42))
+	assert.That(42, NotEqualTo(42))
 	if tester.ErrorCount != 1 {
 		t.Error("expected error to fire")
 	}
@@ -35,9 +35,9 @@ func Test_NotEqualToMatcher(t *testing.T) {
 
 func Test_NilMatcher(t *testing.T) {
 	tester := &internal.MockTester{}
-	asserter := &matchers.MatcherAssert{Test: tester, FailFast: false}
+	assert := &matchers.MatcherAssert{Test: tester, FailFast: false}
 
-	asserter.AssertThat(42, Nil())
+	assert.That(42, Nil())
 	if tester.ErrorCount != 1 {
 		t.Error("expected error to fire")
 	}
@@ -48,9 +48,9 @@ func Test_NilMatcher(t *testing.T) {
 
 func Test_NotNilMatcher(t *testing.T) {
 	tester := &internal.MockTester{}
-	asserter := &matchers.MatcherAssert{Test: tester, FailFast: false}
+	assert := &matchers.MatcherAssert{Test: tester, FailFast: false}
 
-	asserter.AssertThat(nil, NotNil())
+	assert.That(nil, NotNil())
 	if tester.ErrorCount != 1 {
 		t.Error("expected error to fire")
 	}

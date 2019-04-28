@@ -54,7 +54,7 @@ func EveryItemMatching(matcher matchers.Matcher) *matchers.MatcherType {
 	)
 }
 
-func HasItemMatching(matcher matchers.Matcher) *matchers.MatcherType {
+func AnyItemMatching(matcher matchers.Matcher) *matchers.MatcherType {
 	return matchers.NewMatcher(
 		fmt.Sprintf("any item to have %s", matcher.Description()),
 		func(actual interface{}) error {
@@ -69,6 +69,6 @@ func HasItemMatching(matcher matchers.Matcher) *matchers.MatcherType {
 	)
 }
 
-func HasItem(expected interface{}) *matchers.MatcherType {
-	return HasItemMatching(EqualTo(expected))
+func AnyItem(expected interface{}) *matchers.MatcherType {
+	return AnyItemMatching(EqualTo(expected))
 }

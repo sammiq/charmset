@@ -9,9 +9,9 @@ import (
 
 func Test_EveryItemMatchingMatcher(t *testing.T) {
 	tester := &internal.MockTester{}
-	asserter := &matchers.MatcherAssert{Test: tester, FailFast: false}
+	assert := &matchers.MatcherAssert{Test: tester, FailFast: false}
 
-	asserter.AssertThat([]int{42, 42, 43}, EveryItemMatching(EqualTo(42)))
+	assert.That([]int{42, 42, 43}, EveryItemMatching(EqualTo(42)))
 	if tester.ErrorCount != 1 {
 		t.Error("expected error to fire")
 	}
@@ -22,9 +22,9 @@ func Test_EveryItemMatchingMatcher(t *testing.T) {
 
 func Test_AnyItemMatchingMatcher(t *testing.T) {
 	tester := &internal.MockTester{}
-	asserter := &matchers.MatcherAssert{Test: tester, FailFast: false}
+	assert := &matchers.MatcherAssert{Test: tester, FailFast: false}
 
-	asserter.AssertThat([]int{43, 43, 43}, HasItemMatching(EqualTo(42)))
+	assert.That([]int{43, 43, 43}, AnyItemMatching(EqualTo(42)))
 	if tester.ErrorCount != 1 {
 		t.Error("expected error to fire")
 	}
