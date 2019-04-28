@@ -125,3 +125,38 @@ func Test_anyInSliceMismatches(t *testing.T) {
 		})
 	}
 }
+
+func Test_matchSliceSequence(t *testing.T) {
+	tests := []struct {
+		name        string
+		expected    []interface{}
+		actual      interface{}
+		expectMatch bool
+	}{
+		{"should always match empty sequence", []interface{}{}, []int{42}, true},
+		{"should always match single matching sequence", []interface{}{42}, []int{42}, true},
+		{"should not match single non-matching sequence", []interface{}{43}, []int{42}, false},
+		{"should not match out of order sequence", []interface{}{42, 43}, []int{43, 42}, false},
+		{"should always match multiple matching sequence", []interface{}{42, 43, 44}, []int{42, 43, 44}, true},
+		{"should always match multiple matching sub-sequence", []interface{}{42, 43}, []int{42, 43, 44}, true},
+		{"should always match when restarting correct sub-sequence", []interface{}{42, 43, 44}, []int{42, 43, 42, 43, 44}, true},
+		{"should never match when restarting incorrect sub-sequence", []interface{}{42, 43, 44}, []int{42, 43, 42, 43, 42}, false},
+		{"should never match when too short actual sequence at start", []interface{}{42, 43, 44}, []int{42, 43}, false},
+		{"should never match when too short actual sequence at end", []interface{}{42, 43, 44}, []int{43, 44}, false},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			actualValue := reflect.ValueOf(tt.actual)
+			err := matchSliceSequence(tt.expected, actualValue)
+			if tt.expectMatch {
+				if err != nil {
+					t.Errorf("did not expect error. was: %s", err)
+				}
+			} else {
+				if err == nil {
+					t.Error("expected error but none was returned")
+				}
+			}
+		})
+	}
+}

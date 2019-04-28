@@ -2,62 +2,28 @@ package is
 
 import (
 	"fmt"
-	"reflect"
 
 	"github.com/sammiq/matchers"
+	"github.com/sammiq/matchers/internal"
 )
-
-// the rules for Type.ConvertibleTo and Value.Convert in the reflect package are not the same
-// as in the specification (https://golang.org/ref/spec#Conversions) as they allow truncating
-// conversions to take place. This is my attempt to stop the truncation from taking place.
-func convertValue(expectedValue reflect.Value, actualType reflect.Type) interface{} {
-	expectedType := expectedValue.Type()
-	expectedKind := expectedType.Kind()
-	convertedValue := expectedValue.Convert(actualType)
-	//this relies on order of this enumeration to get the numeric types only
-	if expectedKind > reflect.Invalid && expectedKind < reflect.Array {
-		restoredValue := convertedValue.Convert(expectedType)
-		//failed to convert back, or we are not equal (truncated), do not allow the conversion
-		if !restoredValue.IsValid() ||
-			restoredValue.Interface() != expectedValue.Interface() {
-			return expectedValue
-		}
-	}
-	return convertedValue.Interface()
-}
-
-func shouldConvert(expectedValue reflect.Value, actualType reflect.Type) bool {
-	expectedType := expectedValue.Type()
-	return expectedType != nil &&
-		actualType != nil &&
-		expectedType != actualType &&
-		expectedType.ConvertibleTo(actualType)
-
-}
-
-func equal(expected interface{}, actual interface{}) (err error) {
-	//check for pointer or nil equality
-	match := actual == expected
-	if !match {
-		// Attempt comparison after type conversion if required
-		actualType := reflect.TypeOf(actual)
-		expectedValue := reflect.ValueOf(expected)
-		if expectedValue.IsValid() && shouldConvert(expectedValue, actualType) {
-			match = reflect.DeepEqual(convertValue(expectedValue, actualType), actual)
-		} else {
-			match = reflect.DeepEqual(expected, actual)
-		}
-	}
-	if !match {
-		err = fmt.Errorf("value was <%v>", actual)
-	}
-	return err
-}
 
 func EqualTo(expected interface{}) *matchers.MatcherType {
 	return matchers.NewMatcher(
 		fmt.Sprintf("value equal to <%v>", expected),
-		func(actual interface{}) error { return equal(expected, actual) },
+		func(actual interface{}) error { return internal.Equal(expected, actual) },
+	)
+}
+
+func OneOf(expected ...interface{}) *matchers.MatcherType {
+	if len(expected) == 0 {
+		//panic as there is no reason to continue the test if expected is invalid at construction
+		panic("will never match empty slice")
+	}
+	return matchers.NewMatcher(
+		fmt.Sprintf("value equal to any of <%v>", expected),
+		func(actual interface{}) (err error) {
+			return internal.EqualAny(expected, actual)
+		},
 	)
 }
 
