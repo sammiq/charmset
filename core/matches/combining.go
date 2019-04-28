@@ -12,7 +12,7 @@ func mismatch(matcher matchers.Matcher, err error) string {
 }
 
 func formatMismatches(mismatches ...string) error {
-	return fmt.Errorf("(%s)", strings.Join(mismatches, "\n     and "))
+	return fmt.Errorf("(%s)", strings.Join(mismatches, " and\n          "))
 }
 
 func and(first matchers.Matcher, second matchers.Matcher, actual interface{}) (err error) {
