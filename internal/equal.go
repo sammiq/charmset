@@ -14,13 +14,19 @@ func convertValue(expectedValue reflect.Value, actualType reflect.Type) interfac
 	convertedValue := expectedValue.Convert(actualType)
 	//this relies on order of this enumeration to get the numeric types only
 	if expectedKind > reflect.Invalid && expectedKind < reflect.Array {
-		restoredValue := convertedValue.Convert(expectedType)
-		//failed to convert back, or we are not equal (truncated), do not allow the conversion
-		if !restoredValue.IsValid() ||
-			restoredValue.Interface() != expectedValue.Interface() {
-			return expectedValue
+		//attempt to convert back to ensure we lost no information
+		if actualType.ConvertibleTo(expectedType) {
+			restoredValue := convertedValue.Convert(expectedType)
+			if restoredValue.IsValid() &&
+				restoredValue.Interface() == expectedValue.Interface() {
+				// we converted back and lost no information to allow conversion
+				return convertedValue.Interface()
+			}
 		}
+		// we do not allow conversion of one-way conversions
+		return expectedValue
 	}
+	//not a numeric type so allow the conversion
 	return convertedValue.Interface()
 }
 

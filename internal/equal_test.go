@@ -4,13 +4,6 @@ import (
 	"testing"
 )
 
-func assertEqualMatched(t *testing.T, expected interface{}, actual interface{}, expectMatch bool) {
-	err := Equal(expected, actual)
-	if (err == nil) != expectMatch {
-		t.Errorf("Expected err to be returned when match is %v, expected is %v and actual is %v", expectMatch, expected, actual)
-	}
-}
-
 func Test_equalMatches(t *testing.T) {
 	tests := []struct {
 		name     string
@@ -30,7 +23,10 @@ func Test_equalMatches(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			assertEqualMatched(t, tt.expected, tt.actual, true)
+			err := Equal(tt.expected, tt.actual)
+			if err != nil {
+				t.Errorf("Expected no error to be returned, expected is %v and actual is %v", tt.expected, tt.actual)
+			}
 		})
 	}
 }
@@ -58,11 +54,45 @@ func Test_equalMismatches(t *testing.T) {
 		{"should not be equal expected nil but actual double", nil, 42.0},
 		{"should not be equal expected nil but actual string", nil, "string"},
 		{"should not be equal expected nil but actual struct", nil, struct{ test string }{"string"}},
+		{"should not be equal with string and integer", 42, "string"},
+		{"should not be equal with integer and string", "string", 42},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			assertEqualMatched(t, tt.expected, tt.actual, false)
+			err := Equal(tt.expected, tt.actual)
+			if err == nil {
+				t.Errorf("Expected err to be returned, expected is %v and actual is %v", tt.expected, tt.actual)
+			}
+		})
+	}
+}
+
+func Test_equalAnyMatches(t *testing.T) {
+	tests := []struct {
+		name     string
+		expected []interface{}
+		actual   interface{}
+	}{
+		{"should be equal with single integer the same", []interface{}{42}, 42},
+		{"should be equal with single double the same", []interface{}{42.0}, 42.0},
+		{"should be equal with single string the same", []interface{}{"string"}, "string"},
+		{"should be equal with single nil the same", []interface{}{nil}, nil},
+		{"should be equal with first of two integers the same", []interface{}{42, 43}, 42},
+		{"should be equal with first of two doubles the same", []interface{}{42.0, 42.1}, 42.0},
+		{"should be equal with first of two strings the same", []interface{}{"string", "strung"}, "string"},
+		{"should be equal with last of two integers the same", []interface{}{43, 42}, 42},
+		{"should be equal with last of two doubles the same", []interface{}{42.1, 42.0}, 42.0},
+		{"should be equal with last of two strings the same", []interface{}{"strung", "string"}, "string"},
+		{"should be equal with matching data in mixed array the same", []interface{}{42, 42.1, nil, "string"}, "string"},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			err := EqualAny(tt.expected, tt.actual)
+			if err != nil {
+				t.Errorf("Expected no error to be returned, expected is %v and actual is %v", tt.expected, tt.actual)
+			}
 		})
 	}
 }
