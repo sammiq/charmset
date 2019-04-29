@@ -3,10 +3,10 @@ package is
 import (
 	"fmt"
 
-	"github.com/sammiq/matchers"
+	"github.com/sammiq/charmset"
 )
 
-func not(matcher matchers.Matcher, actual interface{}) error {
+func not(matcher charmset.Matcher, actual interface{}) error {
 	err := matcher.Match(actual)
 	if err != nil {
 		return nil
@@ -15,8 +15,8 @@ func not(matcher matchers.Matcher, actual interface{}) error {
 	}
 }
 
-func Not(matcher matchers.Matcher) *matchers.MatcherType {
-	return matchers.NewMatcher(
+func Not(matcher charmset.Matcher) *charmset.MatcherType {
+	return charmset.NewMatcher(
 		fmt.Sprintf("not %s", matcher.Description()),
 		func(actual interface{}) error {
 			return not(matcher, actual)

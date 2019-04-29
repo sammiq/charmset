@@ -5,11 +5,11 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/sammiq/matchers"
+	"github.com/sammiq/charmset"
 )
 
-func Empty() *matchers.MatcherType {
-	return matchers.NewMatcher(
+func Empty() *charmset.MatcherType {
+	return charmset.NewMatcher(
 		"length equal to <0>",
 		func(actual interface{}) error {
 			actualValue := reflect.ValueOf(actual)

@@ -1,9 +1,9 @@
-package matchers
+package charmset
 
 import (
 	"testing"
 
-	"github.com/sammiq/matchers/internal"
+	"github.com/sammiq/charmset/internal"
 )
 
 func TestMatcherAssert_That(t *testing.T) {

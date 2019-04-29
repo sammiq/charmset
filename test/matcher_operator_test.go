@@ -3,14 +3,14 @@ package test
 import (
 	"testing"
 
-	"github.com/sammiq/matchers"
-	"github.com/sammiq/matchers/core/is"
-	"github.com/sammiq/matchers/internal"
+	"github.com/sammiq/charmset"
+	"github.com/sammiq/charmset/matchers/is"
+	"github.com/sammiq/charmset/internal"
 )
 
 func Test_BothAndMatcher(t *testing.T) {
 	tester := &internal.MockTester{}
-	assert := &matchers.MatcherAssert{Test: tester, FailFast: false}
+	assert := &charmset.MatcherAssert{Test: tester, FailFast: false}
 
 	assert.That(42, is.NotNil().And(is.EqualTo(43)))
 	if tester.ErrorCount != 1 {
@@ -23,7 +23,7 @@ func Test_BothAndMatcher(t *testing.T) {
 
 func Test_EitherOrMatcher(t *testing.T) {
 	tester := &internal.MockTester{}
-	assert := &matchers.MatcherAssert{Test: tester, FailFast: false}
+	assert := &charmset.MatcherAssert{Test: tester, FailFast: false}
 
 	assert.That(42, is.Nil().Or(is.EqualTo(43)))
 	if tester.ErrorCount != 1 {

@@ -6,12 +6,12 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/sammiq/matchers"
-	"github.com/sammiq/matchers/core/is"
-	"github.com/sammiq/matchers/internal"
+	charmset "github.com/sammiq/charmset"
+	"github.com/sammiq/charmset/internal"
+	"github.com/sammiq/charmset/matchers/is"
 )
 
-func everyInSliceMatch(matcher matchers.Matcher, actual reflect.Value) (err error) {
+func everyInSliceMatch(matcher charmset.Matcher, actual reflect.Value) (err error) {
 	if actual.Len() == 0 {
 		return errors.New("was empty")
 	}
@@ -25,7 +25,7 @@ func everyInSliceMatch(matcher matchers.Matcher, actual reflect.Value) (err erro
 	return nil
 }
 
-func anyInSliceMatch(matcher matchers.Matcher, actual reflect.Value) (err error) {
+func anyInSliceMatch(matcher charmset.Matcher, actual reflect.Value) (err error) {
 	if actual.Len() == 0 {
 		return errors.New("was empty")
 	}
@@ -75,8 +75,8 @@ func matchSliceSequence(expected []interface{}, actual reflect.Value) (err error
 	return nil
 }
 
-func EveryItemMatching(matcher matchers.Matcher) *matchers.MatcherType {
-	return matchers.NewMatcher(
+func EveryItemMatching(matcher charmset.Matcher) *charmset.MatcherType {
+	return charmset.NewMatcher(
 		fmt.Sprintf("every item to have %s", matcher.Description()),
 		func(actual interface{}) error {
 			actualValue := reflect.ValueOf(actual)
@@ -90,8 +90,8 @@ func EveryItemMatching(matcher matchers.Matcher) *matchers.MatcherType {
 	)
 }
 
-func AnyItemMatching(matcher matchers.Matcher) *matchers.MatcherType {
-	return matchers.NewMatcher(
+func AnyItemMatching(matcher charmset.Matcher) *charmset.MatcherType {
+	return charmset.NewMatcher(
 		fmt.Sprintf("any item to have %s", matcher.Description()),
 		func(actual interface{}) error {
 			actualValue := reflect.ValueOf(actual)
@@ -105,16 +105,16 @@ func AnyItemMatching(matcher matchers.Matcher) *matchers.MatcherType {
 	)
 }
 
-func Item(expected interface{}) *matchers.MatcherType {
+func Item(expected interface{}) *charmset.MatcherType {
 	return AnyItemMatching(is.EqualTo(expected))
 }
 
-func Items(expected ...interface{}) *matchers.MatcherType {
+func Items(expected ...interface{}) *charmset.MatcherType {
 	return AnyItemMatching(is.OneOf(expected...))
 }
 
-func Sequence(expected ...interface{}) *matchers.MatcherType {
-	return matchers.NewMatcher(
+func Sequence(expected ...interface{}) *charmset.MatcherType {
+	return charmset.NewMatcher(
 		fmt.Sprintf("values equal to <%v> in order", expected),
 		func(actual interface{}) error {
 			actualValue := reflect.ValueOf(actual)

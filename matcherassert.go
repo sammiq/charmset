@@ -1,4 +1,4 @@
-package matchers
+package charmset
 
 // Tester abstracts away the T struct used in the testing package
 type Tester interface {
@@ -13,7 +13,7 @@ type MatcherAssert struct {
 	FailFast bool
 }
 
-// That is the method to perform test assertions on a value and matchers
+// That is the method to perform test assertions on a value and charmset
 func (ma *MatcherAssert) That(actual interface{}, matcher Matcher) {
 	if err := matcher.Match(actual); err != nil {
 		ma.Test.Logf("Expected: %s\n     but: %s", matcher.Description(), err)

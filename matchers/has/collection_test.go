@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/sammiq/matchers/internal"
+	"github.com/sammiq/charmset/internal"
 )
 
 func Test_everyInSlice_match_when_no_elements(t *testing.T) {

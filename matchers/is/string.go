@@ -6,7 +6,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/sammiq/matchers"
+	"github.com/sammiq/charmset"
 )
 
 func stringOp(actual interface{}, expected string, opFunc func(string, string) bool, opName string) error {
@@ -20,8 +20,8 @@ func stringOp(actual interface{}, expected string, opFunc func(string, string) b
 	return errors.New("was not a string")
 }
 
-func StringContaining(subString string) *matchers.MatcherType {
-	return matchers.NewMatcher(
+func StringContaining(subString string) *charmset.MatcherType {
+	return charmset.NewMatcher(
 		fmt.Sprintf("string containing '%s'", subString),
 		func(actual interface{}) error {
 			return stringOp(actual, subString, strings.Contains, "contain")
@@ -29,8 +29,8 @@ func StringContaining(subString string) *matchers.MatcherType {
 	)
 }
 
-func StringStartingWith(prefix string) *matchers.MatcherType {
-	return matchers.NewMatcher(
+func StringStartingWith(prefix string) *charmset.MatcherType {
+	return charmset.NewMatcher(
 		fmt.Sprintf("string starting with '%s'", prefix),
 		func(actual interface{}) error {
 			return stringOp(actual, prefix, strings.HasPrefix, "start with")
@@ -38,8 +38,8 @@ func StringStartingWith(prefix string) *matchers.MatcherType {
 	)
 }
 
-func StringEndingWith(suffix string) *matchers.MatcherType {
-	return matchers.NewMatcher(
+func StringEndingWith(suffix string) *charmset.MatcherType {
+	return charmset.NewMatcher(
 		fmt.Sprintf("string ending with '%s'", suffix),
 		func(actual interface{}) error {
 			return stringOp(actual, suffix, strings.HasSuffix, "end with")
@@ -47,13 +47,13 @@ func StringEndingWith(suffix string) *matchers.MatcherType {
 	)
 }
 
-func StringMatchingPattern(regex string) *matchers.MatcherType {
+func StringMatchingPattern(regex string) *charmset.MatcherType {
 	r, err := regexp.Compile(regex)
 	if err != nil {
 		//panic as there is no reason to continue the test if pattern is invalid at construction
 		panic(fmt.Sprintf("failed to compile regex: %s", err))
 	}
-	return matchers.NewMatcher(
+	return charmset.NewMatcher(
 		fmt.Sprintf("string matching pattern '%s'", regex),
 		func(actual interface{}) error {
 			actualString, ok := actual.(string)

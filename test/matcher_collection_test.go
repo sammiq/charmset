@@ -3,15 +3,15 @@ package test
 import (
 	"testing"
 
-	"github.com/sammiq/matchers"
-	"github.com/sammiq/matchers/core/has"
-	"github.com/sammiq/matchers/core/is"
-	"github.com/sammiq/matchers/internal"
+	"github.com/sammiq/charmset"
+	"github.com/sammiq/charmset/matchers/has"
+	"github.com/sammiq/charmset/matchers/is"
+	"github.com/sammiq/charmset/internal"
 )
 
 func Test_EveryItemMatchingMatcher(t *testing.T) {
 	tester := &internal.MockTester{}
-	assert := &matchers.MatcherAssert{Test: tester, FailFast: false}
+	assert := &charmset.MatcherAssert{Test: tester, FailFast: false}
 
 	assert.That([]int{42, 42, 43}, has.EveryItemMatching(is.EqualTo(42)))
 	if tester.ErrorCount != 1 {
@@ -24,7 +24,7 @@ func Test_EveryItemMatchingMatcher(t *testing.T) {
 
 func Test_AnyItemMatchingMatcher(t *testing.T) {
 	tester := &internal.MockTester{}
-	assert := &matchers.MatcherAssert{Test: tester, FailFast: false}
+	assert := &charmset.MatcherAssert{Test: tester, FailFast: false}
 
 	assert.That([]int{43, 43, 43}, has.AnyItemMatching(is.EqualTo(42)))
 	if tester.ErrorCount != 1 {

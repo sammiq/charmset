@@ -1,4 +1,4 @@
-package matchers
+package charmset
 
 import (
 	"errors"
@@ -15,7 +15,7 @@ type Matcher interface {
 	Match(actual interface{}) error
 }
 
-// MatcherType struct is the concrete opaque type used when building matchers
+// MatcherType struct is the concrete opaque type used when building charmset
 type MatcherType struct {
 	expected  string
 	matchFunc MatcherFunc
@@ -64,7 +64,7 @@ func or(first Matcher, second Matcher, actual interface{}) (err error) {
 }
 
 // And composes this matcher and another matcher into a new matcher that
-// performs a logical AND on both the matchers
+// performs a logical AND on both the charmset
 func (mt *MatcherType) And(matcher Matcher) *MatcherType {
 	return &MatcherType{
 		expected: fmt.Sprintf("%s and %s", mt.expected, matcher.Description()),
@@ -75,7 +75,7 @@ func (mt *MatcherType) And(matcher Matcher) *MatcherType {
 }
 
 // And composes this matcher and another matcher into a new matcher that
-// performs a logical OR on both the matchers
+// performs a logical OR on both the charmset
 func (mt *MatcherType) Or(matcher Matcher) *MatcherType {
 	return &MatcherType{
 		expected: fmt.Sprintf("%s or %s", mt.expected, matcher.Description()),

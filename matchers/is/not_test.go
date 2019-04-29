@@ -3,7 +3,7 @@ package is
 import (
 	"testing"
 
-	"github.com/sammiq/matchers/internal"
+	"github.com/sammiq/charmset/internal"
 )
 
 func Test_not(t *testing.T) {

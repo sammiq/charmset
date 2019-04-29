@@ -6,11 +6,11 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/sammiq/matchers"
-	"github.com/sammiq/matchers/core/is"
+	"github.com/sammiq/charmset"
+	"github.com/sammiq/charmset/matchers/is"
 )
 
-func everyKeyInMapMatch(matcher matchers.Matcher, actual reflect.Value) (err error) {
+func everyKeyInMapMatch(matcher charmset.Matcher, actual reflect.Value) (err error) {
 	if actual.Len() == 0 {
 		return errors.New("was empty")
 	}
@@ -25,7 +25,7 @@ func everyKeyInMapMatch(matcher matchers.Matcher, actual reflect.Value) (err err
 	return nil
 }
 
-func anyKeyInMapMatch(matcher matchers.Matcher, actual reflect.Value) (err error) {
+func anyKeyInMapMatch(matcher charmset.Matcher, actual reflect.Value) (err error) {
 	if actual.Len() == 0 {
 		return errors.New("was empty")
 	}
@@ -45,8 +45,8 @@ func anyKeyInMapMatch(matcher matchers.Matcher, actual reflect.Value) (err error
 	return fmt.Errorf("no key matched where [\n          %s\n          ]", strings.Join(errs, ",\n          "))
 }
 
-func EveryKeyMatching(matcher matchers.Matcher) *matchers.MatcherType {
-	return matchers.NewMatcher(
+func EveryKeyMatching(matcher charmset.Matcher) *charmset.MatcherType {
+	return charmset.NewMatcher(
 		fmt.Sprintf("any key to have %s", matcher.Description()),
 		func(actual interface{}) error {
 			actualValue := reflect.ValueOf(actual)
@@ -60,8 +60,8 @@ func EveryKeyMatching(matcher matchers.Matcher) *matchers.MatcherType {
 	)
 }
 
-func AnyKeyMatching(matcher matchers.Matcher) *matchers.MatcherType {
-	return matchers.NewMatcher(
+func AnyKeyMatching(matcher charmset.Matcher) *charmset.MatcherType {
+	return charmset.NewMatcher(
 		fmt.Sprintf("any key to have %s", matcher.Description()),
 		func(actual interface{}) error {
 			actualValue := reflect.ValueOf(actual)
@@ -75,10 +75,10 @@ func AnyKeyMatching(matcher matchers.Matcher) *matchers.MatcherType {
 	)
 }
 
-func Key(expected interface{}) *matchers.MatcherType {
+func Key(expected interface{}) *charmset.MatcherType {
 	return AnyKeyMatching(is.EqualTo(expected))
 }
 
-func Keys(expected ...interface{}) *matchers.MatcherType {
+func Keys(expected ...interface{}) *charmset.MatcherType {
 	return AnyKeyMatching(is.OneOf(expected...))
 }
