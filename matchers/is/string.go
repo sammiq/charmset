@@ -20,6 +20,7 @@ func stringOp(actual interface{}, expected string, opFunc func(string, string) b
 	return errors.New("was not a string")
 }
 
+// StringContaining returns a matcher that checks whether a string contains another string
 func StringContaining(subString string) *charmset.MatcherType {
 	return charmset.NewMatcher(
 		fmt.Sprintf("string containing '%s'", subString),
@@ -29,6 +30,7 @@ func StringContaining(subString string) *charmset.MatcherType {
 	)
 }
 
+// StringStartingWith returns a matcher that checks whether a string starts with another string
 func StringStartingWith(prefix string) *charmset.MatcherType {
 	return charmset.NewMatcher(
 		fmt.Sprintf("string starting with '%s'", prefix),
@@ -38,6 +40,7 @@ func StringStartingWith(prefix string) *charmset.MatcherType {
 	)
 }
 
+// StringEndingWith returns a matcher that checks whether a string ends with another string
 func StringEndingWith(suffix string) *charmset.MatcherType {
 	return charmset.NewMatcher(
 		fmt.Sprintf("string ending with '%s'", suffix),
@@ -47,6 +50,7 @@ func StringEndingWith(suffix string) *charmset.MatcherType {
 	)
 }
 
+// StringMatchingPattern returns a matcher that checks whether a string matches a regular expression
 func StringMatchingPattern(regex string) *charmset.MatcherType {
 	r, err := regexp.Compile(regex)
 	if err != nil {

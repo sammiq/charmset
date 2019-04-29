@@ -6,7 +6,7 @@ import (
 	"reflect"
 	"strings"
 
-	charmset "github.com/sammiq/charmset"
+	"github.com/sammiq/charmset"
 	"github.com/sammiq/charmset/internal"
 	"github.com/sammiq/charmset/matchers/is"
 )

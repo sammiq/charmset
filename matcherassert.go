@@ -13,7 +13,7 @@ type MatcherAssert struct {
 	FailFast bool
 }
 
-// That is the method to perform test assertions on a value and charmset
+// That is the method to perform test assertions on a value using a matcher
 func (ma *MatcherAssert) That(actual interface{}, matcher Matcher) {
 	if err := matcher.Match(actual); err != nil {
 		ma.Test.Logf("Expected: %s\n     but: %s", matcher.Description(), err)

@@ -8,6 +8,7 @@ import (
 	"github.com/sammiq/charmset"
 )
 
+// Empty returns a matcher that checks whether len(...) of an array, slice, map or string  is 0.
 func Empty() *charmset.MatcherType {
 	return charmset.NewMatcher(
 		"length equal to <0>",

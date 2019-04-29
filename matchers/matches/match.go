@@ -7,9 +7,9 @@ import (
 	"github.com/sammiq/charmset"
 )
 
-func allMatch(charmset []charmset.Matcher, actual interface{}) (err error) {
+func allMatch(matchers []charmset.Matcher, actual interface{}) (err error) {
 	//report any error
-	for _, matcher := range charmset {
+	for _, matcher := range matchers {
 		err = matcher.Match(actual)
 		if err != nil {
 			break
@@ -18,8 +18,8 @@ func allMatch(charmset []charmset.Matcher, actual interface{}) (err error) {
 	return err
 }
 
-func anyMatch(charmset []charmset.Matcher, actual interface{}) (err error) {
-	for _, matcher := range charmset {
+func anyMatch(matchers []charmset.Matcher, actual interface{}) (err error) {
+	for _, matcher := range matchers {
 		err = matcher.Match(actual)
 		if err == nil {
 			break
@@ -28,24 +28,24 @@ func anyMatch(charmset []charmset.Matcher, actual interface{}) (err error) {
 	return err
 }
 
-func describecharmset(allcharmset []charmset.Matcher, separator string) string {
-	expected := make([]string, len(allcharmset))
-	for i, matcher := range allcharmset {
+func describeMatchers(allMatchers []charmset.Matcher, separator string) string {
+	expected := make([]string, len(allMatchers))
+	for i, matcher := range allMatchers {
 		expected[i] = matcher.Description()
 	}
 	return strings.Join(expected, separator)
 }
 
-func AllOf(allcharmset ...charmset.Matcher) *charmset.MatcherType {
+func AllOf(allMatchers ...charmset.Matcher) *charmset.MatcherType {
 	return charmset.NewMatcher(
-		fmt.Sprintf("(%s)", describecharmset(allcharmset, " and ")),
-		func(actual interface{}) error { return allMatch(allcharmset, actual) },
+		fmt.Sprintf("(%s)", describeMatchers(allMatchers, " and ")),
+		func(actual interface{}) error { return allMatch(allMatchers, actual) },
 	)
 }
 
-func AnyOf(anycharmset ...charmset.Matcher) *charmset.MatcherType {
+func AnyOf(anyMatchers ...charmset.Matcher) *charmset.MatcherType {
 	return charmset.NewMatcher(
-		fmt.Sprintf("(%s)", describecharmset(anycharmset, " or ")),
-		func(actual interface{}) error { return anyMatch(anycharmset, actual) },
+		fmt.Sprintf("(%s)", describeMatchers(anyMatchers, " or ")),
+		func(actual interface{}) error { return anyMatch(anyMatchers, actual) },
 	)
 }

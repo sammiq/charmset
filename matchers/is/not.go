@@ -15,6 +15,7 @@ func not(matcher charmset.Matcher, actual interface{}) error {
 	}
 }
 
+// Not returns a matcher that inverts the result from a given matcher
 func Not(matcher charmset.Matcher) *charmset.MatcherType {
 	return charmset.NewMatcher(
 		fmt.Sprintf("not %s", matcher.Description()),
