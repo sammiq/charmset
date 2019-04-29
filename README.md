@@ -18,3 +18,27 @@ You probably don't want to look at this at the moment:
 - It is mostly for my personal use and suits my personal tastes
 - The APIs are prone to change / breakage until I get happy with it
 - I am not a Go expert, there are possibly many dumb things in here
+
+Tiny Examples
+-------------
+
+The philosophy was to create a readable fluent API, hence the naming of the matcher packages.
+
+    assert.That(probableString, is.StringContaining("penguins"))
+    assert.That(probableSliceOfNumbers, has.Item(42))
+    assert.That(probableMap, has.Key("My Key"))
+
+you can chain them logically
+
+    assert.That(probableSliceOfNumbers, has.Item(42).and(has.Item(24)))
+    assert.That(probableString, is.StringContaining("penguins").or(is.StringStartingWith("seal")))
+
+you get the idea...
+
+Documentation
+-------------
+
+Main package documentation is on GoDoc here: [charmset](https://godoc.org/github.com/sammiq/charmset).
+
+Built-in matcher documentation is on GoDoc here: [has](https://godoc.org/github.com/sammiq/charmset/matchers/has), [is](https://godoc.org/github.com/sammiq/charmset/matchers/is) and, [matches](https://godoc.org/github.com/sammiq/charmset/matchers/matches).
+

@@ -10,9 +10,8 @@ func not(matcher charmset.Matcher, actual interface{}) error {
 	err := matcher.Match(actual)
 	if err != nil {
 		return nil
-	} else {
-		return fmt.Errorf("value was <%v>", actual)
 	}
+	return fmt.Errorf("value was <%v>", actual)
 }
 
 // Not returns a matcher that inverts the result from a given matcher

@@ -68,9 +68,8 @@ func matchSliceSequence(expected []interface{}, actual reflect.Value) (err error
 	if matchIndex < matchLen {
 		if matchLen-matchIndex > 1 {
 			return fmt.Errorf("did not contain <%v>", expected[matchIndex:])
-		} else {
-			return fmt.Errorf("did not contain <%v>", expected[matchIndex])
 		}
+		return fmt.Errorf("did not contain <%v>", expected[matchIndex])
 	}
 	return nil
 }
