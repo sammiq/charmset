@@ -4,8 +4,8 @@ import (
 	"testing"
 
 	"github.com/sammiq/charmset"
-	"github.com/sammiq/charmset/matchers/is"
 	"github.com/sammiq/charmset/internal"
+	"github.com/sammiq/charmset/matchers/is"
 )
 
 func Test_EqualToMatcher(t *testing.T) {

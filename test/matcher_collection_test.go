@@ -4,9 +4,9 @@ import (
 	"testing"
 
 	"github.com/sammiq/charmset"
+	"github.com/sammiq/charmset/internal"
 	"github.com/sammiq/charmset/matchers/has"
 	"github.com/sammiq/charmset/matchers/is"
-	"github.com/sammiq/charmset/internal"
 )
 
 func Test_EveryItemMatchingMatcher(t *testing.T) {
