@@ -24,14 +24,14 @@ Tiny Examples
 
 The philosophy was to create a readable fluent API, hence the naming of the matcher packages.
 
-    assert.That(probableString, is.StringContaining("penguins"))
+    assert.That(probableString, has.Substring("penguins"))
     assert.That(probableSliceOfNumbers, has.Item(42))
     assert.That(probableMap, has.Key("My Key"))
 
 you can chain them logically
 
     assert.That(probableSliceOfNumbers, has.Item(42).and(has.Item(24)))
-    assert.That(probableString, is.StringContaining("penguins").or(is.StringStartingWith("seal")))
+    assert.That(probableString, has.Substring("penguins").or(has.Prefix("seal")))
 
 you get the idea...
 
