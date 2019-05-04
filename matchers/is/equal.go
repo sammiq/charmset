@@ -24,7 +24,7 @@ func EqualTo(expected interface{}) *charmset.MatcherType {
 func OneOf(expected ...interface{}) *charmset.MatcherType {
 	if len(expected) == 0 {
 		//panic as there is no reason to continue the test if expected is invalid at construction
-		panic("will never match empty slice")
+		panic("will never match an empty set of items")
 	}
 	return charmset.NewMatcher(
 		fmt.Sprintf("value equal to any of <%v>", expected),

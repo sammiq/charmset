@@ -36,13 +36,21 @@ func describeMatchers(allMatchers []charmset.Matcher, separator string) string {
 	return strings.Join(expected, separator)
 }
 
+// AllOf returns a matcher that checks whether a value matches every
+// matcher given. Returns early is a matcher does not match.
 func AllOf(allMatchers ...charmset.Matcher) *charmset.MatcherType {
+	if len(allMatchers) == 0 {
+		//panic as there is no reason to continue the test if allMatchers is invalid at construction
+		panic("will never match an empty set of matchers")
+	}
 	return charmset.NewMatcher(
 		fmt.Sprintf("(%s)", describeMatchers(allMatchers, " and ")),
 		func(actual interface{}) error { return allMatch(allMatchers, actual) },
 	)
 }
 
+// AnyOf returns a matcher that checks whether a value matches any
+// matcher given. Returns early is a matcher returns a match.
 func AnyOf(anyMatchers ...charmset.Matcher) *charmset.MatcherType {
 	return charmset.NewMatcher(
 		fmt.Sprintf("(%s)", describeMatchers(anyMatchers, " or ")),

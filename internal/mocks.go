@@ -5,6 +5,8 @@ import (
 	"fmt"
 )
 
+// MockTester provides an easy way of mocking the Tester interface
+// and counting the times errors are passed to the interface.
 type MockTester struct {
 	ErrorCount  int
 	FatalCount  int
@@ -23,6 +25,8 @@ func (x *MockTester) FailNow() {
 	x.FatalCount++
 }
 
+// MockMatcher provides an easy way of mocking the Matcher interface,
+// returning a fixed result, and counting the times the matcher is called.
 type MockMatcher struct {
 	Matches   bool
 	CallCount int

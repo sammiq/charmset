@@ -8,6 +8,7 @@ import (
 	"github.com/sammiq/charmset"
 )
 
+// Length returns a matcher that checks whether len(...) of an array, slice, map or string  is a given value.
 func Length(length int) *charmset.MatcherType {
 	return charmset.NewMatcher(
 		fmt.Sprintf("length equal to %d", length),
