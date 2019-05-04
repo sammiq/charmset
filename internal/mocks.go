@@ -13,14 +13,17 @@ type MockTester struct {
 	LastMessage string
 }
 
+// Logf mocks the Tester Logf method
 func (x *MockTester) Logf(format string, args ...interface{}) {
 	x.LastMessage = fmt.Sprintf(format, args...)
 }
 
+// Fail mocks the Tester Fail method
 func (x *MockTester) Fail() {
 	x.ErrorCount++
 }
 
+// FailNow mocks the Tester FailNow method
 func (x *MockTester) FailNow() {
 	x.FatalCount++
 }
@@ -32,10 +35,12 @@ type MockMatcher struct {
 	CallCount int
 }
 
+// Description mocks the Matcher Description method
 func (x *MockMatcher) Description() string {
 	return "might match"
 }
 
+// Match mocks the Matcher Match method
 func (x *MockMatcher) Match(actual interface{}) error {
 	x.CallCount++
 	if x.Matches {

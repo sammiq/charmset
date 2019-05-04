@@ -146,7 +146,7 @@ func Items(expected ...interface{}) *charmset.MatcherType {
 	)
 }
 
-// Items returns a matcher that checks whether all elements of a given set of values
+// Sequence returns a matcher that checks whether all elements of a given set of values
 // are contained in an array or slice in the order specified. Returns early if a match is found.
 func Sequence(expected ...interface{}) *charmset.MatcherType {
 	if len(expected) == 0 {
